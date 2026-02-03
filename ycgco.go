@@ -8,14 +8,16 @@ type ycgco struct {
 }
 
 func (yc *ycgco) RGBA() (uint8, uint8, uint8, uint8) {
-	y := int16(yc.y)
+	y32 := int32(yc.y)
+	cg32 := int32(yc.cg)
+	co32 := int32(yc.co)
 
-	t := y - yc.cg/2
-	g := yc.cg + t
-	b := t - yc.co/2
-	r := b + yc.co
+	t := y32 - (cg32 >> 1)
+	g := cg32 + t
+	b := t - (co32 >> 1)
+	r := b + co32
 
-	return uint8(r), uint8(g), uint8(b), yc.a
+	return clamp8(r), clamp8(g), clamp8(b), yc.a
 }
 
 func (yc *ycgco) YCgCoA() (y uint8, cg, co int16, alpha uint8) {

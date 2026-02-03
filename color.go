@@ -32,3 +32,13 @@ func NewYCgCoA(y uint8, cg int16, co int16, a uint8) Color {
 		a:  a,
 	}
 }
+
+func clamp8(x int32) uint8 {
+	if x < 0 {
+		return 0
+	}
+	if x > 255 {
+		return 255
+	}
+	return uint8(x)
+}
